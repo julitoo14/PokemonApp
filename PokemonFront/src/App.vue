@@ -1,68 +1,97 @@
 <template>
-  <nav>
-  <div>
-    <a href="#"><img src="./assets/Poké_Ball_icon.svg" alt="Logo"></a>
-  </div>
-  <div> 
-    <h1>Pokemon Team</h1>
-  </div>
-  <div class="login">
-    <button>Iniciar sesión</button>
-    <button>Registrarse</button>
-  </div>
-</nav>
+  <Navbar @login="showLogin" @register="showRegister"/>  <!-- se toman los eventos de los botones de login y register -->
+  
+  <Modal :show="showLoginModel" @close="showLoginModel = false">
+  
+    <template v-slot:header>
+      <h2>Login to your account</h2>
+    </template>
+
+    <template v-slot:content>
+      <div class="login-form-div">
+        <label>User</label>
+        <input type="text" v-model="user">
+      </div>
+      <div class="login-form-div">
+        <label>Password</label>
+        <input type="text" v-model="password">
+      </div>
+    </template>
+
+    <template v-slot:footer>
+      <Btn @click="login(this.user, this.password)" variant="red">Iniciar Sesion</Btn>
+    </template>
+
+  </Modal>
 </template>
 
 
 <script>
+import Navbar from './components/Navbar.vue';
+import Modal from './components/Modal.vue';
+import Btn from './components/Btn.vue';
+import axios from "axios";
 
+const component = {
+
+  components: {
+    Navbar,
+    Modal,
+    Btn,
+  },
+
+  data() {
+    return {
+      showLoginModel: false,
+      showRegisterModel: false,
+      user: '',
+      password:'',
+      token: '',
+    };
+  },
+
+  methods:{
+    showLogin(){
+      this.showLoginModel=true;
+      console.log(this.showLoginModel);
+    },
+
+    showRegister(){
+      this.showRegisterModel=true;
+      console.log(this.showRegisterModel)
+    },
+
+    async login(user, password){
+      try{
+        const res = await axios.post('http://localhost:3000/auth/login', {user: user, password: password});
+        this.token = res.data;
+        console.log(this.token);
+      }catch(e){
+        console.log(e.message);
+      }
+    }
+  }
+};
+export default component;
 </script>
 
 
 <style scoped>
-  nav {
-  background-color: rgb(46, 45, 45);
-  color: rgb(226, 98, 98);
+.login-form-div{
   display: flex;
-  justify-content: space-between;
+  justify-content:space-around;
   align-items: center;
-  padding: 10px;
-  display: flex;
+  margin-bottom: 1em;
 }
 
-nav div{
-  width: 33%;
+.login-form-div label{
+  width: 20%;
 }
 
-nav img {
-  height: 70px;
-  margin-right: 10px;
+.login-form-div input{
+  width: 60%;
 }
 
-nav h1 {
-  text-align: center;
-  font-size: 2em;
-}
 
-nav button {
-  background-color: white;
-  color: black;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 16px;
-  margin-left: 10px;
-}
-
-nav button:hover {
-  cursor: pointer;
-  background-color: rgb(226, 98, 98);
-  color: white;
-}
-
-.login{
-  display: flex;
-  justify-content: flex-end;
-}
 
 </style>

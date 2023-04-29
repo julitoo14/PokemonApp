@@ -3,6 +3,7 @@ const usersController = require('./users.controller');
 const { to } = require('../tools/to');
 
 const loguear = async (req, res) => {
+    res.body;
     if(!req.body){ // si no me llega ningun dato devuelvo 400
         return res.status(400).json({message: 'Missing data'});
     } else if(!req.body.user || !req.body.password){ // si no me llega el usuario o el password devuelvo 400
