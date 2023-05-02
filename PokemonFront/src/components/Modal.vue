@@ -81,7 +81,7 @@ export default {
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
     animation-duration: 0.4s;
-    border: 3px solid red;
+    border: 3px solid yellow;
 }
 
 

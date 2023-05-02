@@ -11,7 +11,7 @@ export default{
             required: false,
             default: "white",
             validator(value){ // se valida que la opcion ingresada sea valida, si no queda la default
-                const options = ["gray", "white", "blue", "red", "green"];
+                const options = ["gray", "white", "blue", "red", "green", "yellow"];
                 return options.includes(value);
             },
         },
@@ -30,6 +30,7 @@ export default{
                 blue: "blue",
                 red: "red",
                 green: "green",
+                yellow: 'yellow',
             };
             return options[this.variant];
         },
@@ -56,8 +57,8 @@ button {
 
 button:hover {
   cursor: pointer;
-  background-color: rgb(226, 98, 98);
-  color: white;
+  background-color: rgb(204, 201, 27);
+  color: rgb(8, 8, 8);
 }
 
 .circle{

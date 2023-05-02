@@ -1,26 +1,28 @@
 <template>
     <nav>
-  <div>
-    <a href="#"><img src="../assets/Poké_Ball_icon.svg" alt="Logo"></a>
+  <div class="nav-div">
+    <a href="#"><img class="pokeball" src="../assets/Poké_Ball_icon.svg" alt="Logo"></a>
   </div>
-  <div> 
-    <h1>Pokemon Team</h1>
+  <div class="nav-div logo-div"> 
+    <img class="logo" src="../assets/Pokemon.svg"><img>
   </div>
-  <div class="login">
-    <Btn variant='red' @click="$emit('login')">Iniciar sesión</Btn>
-    <Btn variant="red" @click="$emit('register')">Registrarse</Btn>
+  <div class="nav-div buttons-div">
+    <slot name="login"></slot>
   </div>
+  
 </nav>
+
 </template>
 
 <script>
-import Btn from './Btn.vue';
-export default{
-    components: {Btn,},
-    props:{
 
-      emits: ['login', 'register'],
-    }
+export default{
+    components: {},
+    data(){
+      return{
+        show: true,
+      }
+    },
 };
 </script>
 
@@ -29,29 +31,37 @@ export default{
   background-color: rgb(46, 45, 45);
   color: red;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding: 10px;
-  display: flex;
+  width: 100%;
 }
 
-nav div{
+.logo-div{
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-div{
   width: 33%;
 }
 
-nav img {
-  height: 70px;
-  margin-right: 10px;
+.pokeball {
+  height: 80px;
 }
 
-nav h1 {
-  text-align: center;
-  font-size: 2em;
+.logo {
+  margin: auto;
+  height: 80px;
 }
 
-.login{
+
+
+.buttons-div{
   display: flex;
   justify-content: flex-end;
+  margin-right: 30px;
 }
 
 

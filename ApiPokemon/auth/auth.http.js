@@ -2,6 +2,23 @@ const jwt = require('jsonwebtoken');
 const usersController = require('./users.controller');
 const { to } = require('../tools/to');
 
+const register = async (req, res) =>{
+    if(!req.body){ // si no me llega ningun dato devuelvo 400
+        return res.status(400).json({message: 'Missing data'});
+    } else if(!req.body.user || !req.body.password){ // si no me llega el usuario o el password devuelvo 400
+        console.log(req.body.user, req.body.password);
+        return res.status(400).json({message: `${req.body}`});
+    }
+
+    let [err, resp] = await to(usersController.registerUser(req.body.user, req.body.password));
+
+    if(err){
+        return res.status(400).json({err});
+    }
+
+    res.status(200).json(`se registro ${req.body.user} con contrase;a ${req.body.password}`);
+}
+
 const loguear = async (req, res) => {
     res.body;
     if(!req.body){ // si no me llega ningun dato devuelvo 400
@@ -27,5 +44,5 @@ const loguear = async (req, res) => {
     );
     
 }
-
+exports.register = register;
 exports.loguear = loguear;
