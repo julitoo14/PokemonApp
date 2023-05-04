@@ -67,6 +67,15 @@
       </Alert>
     </template>
   </Modal>
+  <div class="pokemones">
+    <Pokemon />
+    <Pokemon />
+    <Pokemon />
+    <Pokemon />
+    <Pokemon />
+    <Pokemon />
+
+  </div>
 </template>
 
 
@@ -76,7 +85,7 @@ import Modal from './components/Modal.vue';
 import Btn from './components/Btn.vue';
 import axios from "axios";
 import Alert from "./components/Alert.vue";
-
+import Pokemon from './components/Pokemon.vue';
 const component = {
 
   components: {
@@ -84,6 +93,7 @@ const component = {
     Modal,
     Btn,
     Alert,
+    Pokemon
   },
 
   data() {
@@ -93,6 +103,7 @@ const component = {
       user: '',
       password: '',
       confirmPassword:'',
+      pokemones:['pikachu','charmander', 'das','dasasd'],
       token: '',
       logueado: false,
       alert: {
@@ -202,5 +213,11 @@ export default component;
   text-align: center;
   margin: auto;
   margin-top: 1em;
+}
+
+.pokemones{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 </style>
