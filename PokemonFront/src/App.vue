@@ -2,7 +2,7 @@
   <Navbar @login="showLogin" @register="showRegister">
     <template v-slot:login>
       <div v-if="logueado" class="login">
-        <p class="welcome">Bienvenido {{ this.user }}!</p>
+        <p class="welcome">Bienvenido {{ user }}!</p>
         <Btn variant="gray" @click="signOut"> Cerrar Sesion </Btn>
       </div>
       <div v-else class="login">
@@ -12,7 +12,7 @@
     </template>
   </Navbar> <!-- se toman los eventos de los botones de login y register -->
 
-  <Modal :show="showLoginModel" @close="showLoginModel = false, alert.show = false">
+  <Modal :show="showLoginModel.show" @close="showLoginModel.show = false, alert.show = false">
 
     <template v-slot:header>
       <h2>Login to your account</h2>
@@ -31,7 +31,7 @@
 
     <template v-slot:footer>
       <div class="modal-footer">
-        <Btn @click="login(this.user, this.password)" variant="yellow">Iniciar Sesion</Btn>
+        <Btn @click="login(user, password)" variant="yellow">Iniciar Sesion</Btn>
         <Alert :message="alert.message" :show="alert.show" @close="alert.show = false" :type=alert.type
           class="modal-alert"> </Alert>
       </div>
@@ -39,7 +39,7 @@
 
   </Modal>
 
-  <Modal :show="showRegisterModel" @close="showRegisterModel = false, alert.show = false">
+  <Modal :show="showRegisterModel.show" @close="showRegisterModel.show = false, alert.show = false">
     <template v-slot:header>
       <h2>Register your account</h2>
     </template>
@@ -62,21 +62,21 @@
     </template>
 
     <template class="modal-footer" v-slot:footer>
-      <Btn @click="register(this.user, this.password, this.confirmPassword)" variant="yellow">Register</Btn>
+      <Btn @click="register(user, password, confirmPassword)" variant="yellow">Register</Btn>
       <Alert :message="alert.message" :show="alert.show" @close="alert.show = false" :type=alert.type class="modal-alert">
       </Alert>
     </template>
   </Modal>
   <div class="pokemones" v-if="logueado">
-    <Pokemon v-for="pokemon in pokemones" :key="pokemon.id" :name="pokemon.name" @remove="removePokemon(pokemon.id)" >
+    <Pokemon v-for="pokemon in pokemones" :key="pokemon.id" :name="pokemon.name" @remove="removePokemon(pokemon.id)">
     </Pokemon>
-    <AddPokemonForm v-if="pokemones.length <=5" @submit="addPokemon"/>
+    <AddPokemonForm v-if="pokemones.length <= 5" @submit="addPokemon" />
 
   </div>
 </template>
 
 
-<script>
+<script setup>
 import Navbar from './components/Navbar.vue';
 import Modal from './components/Modal.vue';
 import Btn from './components/Btn.vue';
@@ -84,138 +84,124 @@ import axios from "axios";
 import Alert from "./components/Alert.vue";
 import Pokemon from './components/Pokemon.vue';
 import AddPokemonForm from './components/addPokemonForm.vue';
-const component = {
+import { onMounted, reactive, ref } from 'vue';
 
-  components: {
-    Navbar,
-    Modal,
-    Btn,
-    Alert,
-    Pokemon,
-    AddPokemonForm,
-  },
+const showLoginModel = reactive({
+  show: false
+});
+const showRegisterModel = reactive({
+  show: false
+});
+const user = ref('');
+const password = ref('');
+const confirmPassword = ref('');
+const counter = ref(0);
+const pokemones = ref([]);
+const apiPath = 'http://localhost:3000/';
+const logueado = ref(false);
+const alert = reactive({
+  alert: {
+    show: false,
+    message: "",
+    type: "danger",
+  }
+}
+);
 
-  data() {
-    return {
-      showLoginModel: false,
-      showRegisterModel: false,
-      user: '',
-      password: '',
-      confirmPassword:'',
-      pokemonName:'',
-      counter: 0,
-      pokemones:[],
-      token: '',
-      apiPath: 'http://localhost:3000/',
-      logueado: false,
-      alert: {
-        show: false,
-        message: "",
-        type: "danger",
-      },
-    };
-  },
+onMounted( () => {
+  if(localStorage.getItem('token')){
+    fetchPokemons();
+    logueado.value = true;
+  }
+});
 
-  methods: {
-    showAlert(message, type) {
-      this.alert.show = true;
-      this.alert.message = message;
-      this.alert.type = type;
-    },
+const showAlert = (message, type) => {
+  alert.show = true;
+  alert.message = message;
+  alert.type = type;
+}
 
-    showLogin() {
-      this.showLoginModel = true;
-    },
+const showLogin = () => {
+  showLoginModel.show = true;
+}
 
-    showRegister() {
-      this.showRegisterModel = true;
-    },
+const showRegister = () => {
+  showRegisterModel.show = true;
+}
 
-    async login(user, password) {
-      if (user != '' && password != '') {
-        try {
-          const res = await axios.post('http://localhost:3000/auth/login', { user: user, password: password });
-          this.token = res.data;
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem ('userId', res.data.userId);
-          this.token = res.data.token;
-          this.showLoginModel = false;
-          this.logueado = true;
-          this.fetchPokemons();
-        } catch (e) {
-          this.showAlert(e.response.data.message, "danger");
-        }
-      } else {
-        this.showAlert("Faltan datos");
+const login = async (user, password) => {
+  if (user != '' && password != '') {
+    try {
+      const res = await axios.post('http://localhost:3000/auth/login', { user: user, password: password });
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('userId', res.data.userId);
+      localStorage.setItem('name', user)
+      showLoginModel.show = false;
+      logueado.value = true;
+      fetchPokemons();
+    } catch (e) {
+      showAlert(e.response.data.message, "danger");
+    }
+  } else {
+    showAlert("Faltan datos");
+  }
+}
+
+const register = async (user, password, confirmPassword) => {
+  if (user != '' && password != '' && confirmPassword != '') {
+    if (password !== confirmPassword) {
+      showAlert("passwords no coinciden");
+    } else {
+
+      try {
+        const res = await axios.post('http://localhost:3000/auth/register', { user: user, password: password });
+        showAlert(`${user} se ha registrado correctamente`, "info");
+      } catch (e) {
+        showAlert(e.response.data.message);
       }
-    },
+    }
 
-    async register(user, password, confirmPassword) {
-      if (user != '' && password != '' && confirmPassword != '') {
-        if (password !== confirmPassword) {
-          this.showAlert("passwords no coinciden");
-        } else {
+  } else {
+    showAlert("Faltan datos");
+  }
+}
 
-          try {
-            const res = await axios.post('http://localhost:3000/auth/register', { user: user, password: password });
-            this.showAlert(`${user} se ha registrado correctamente`,"info");
-          } catch (e) {
-            this.showAlert(e.response.data.message);
-          }
-        }
+const signOut = () => {
+  logueado.value = false;
+  localStorage.clear();
+}
 
-      } else {
-        this.showAlert("Faltan datos");
-      }
-    },
-
-    signOut() {
-      this.token = '';
-      this.logueado = false;
-      localStorage.clear();
-    },
-    
-    async addPokemon(pokemon){
-      const options = {
-        headers: {
-          'Authorization': `JWT ${this.token}`
-        }
-      }
-      const name = pokemon.toLowerCase();
-      console.log(name);
-      
-      await axios.post(`${this.apiPath}teams/pokemons`, {name: name}, options);
-      this.pokemones.push({name: name, id: ++this.counter});
-      console.log(this.pokemones);
-    },
-
-    removePokemon(id){
-      this.pokemones = this.pokemones.filter((pokemon) => pokemon.id !== id);
-    },
-
-    async fetchPokemons(){
-      
-      const options = {
-        headers: {
-          'Authorization': `JWT ${this.token}`
-        }
-      };
-      console.log(localStorage.getItem('userId'));
-      const user = {'user': {
-        'userId' : localStorage.getItem('userId')
-      } }
-      
-      const res = await axios.get(`${this.apiPath}teams/`, {
-        headers: {
-          'Authorization': `JWT ${this.token}`
-        }
-      });
-
-      this.pokemones = res.data.team;
+const addPokemon = async (pokemon) => {
+  
+  const options = {
+    headers: {
+      'Authorization': `JWT ${localStorage.getItem('token')}`
     }
   }
-};
-export default component;
+  const name = pokemon.toLowerCase();
+
+  await axios.post(`${apiPath}teams/pokemons`, { name: name }, options);
+  pokemones.value.push({ name: name, id: ++counter.value });
+}
+
+const removePokemon = (id) => {
+  pokemones.value = pokemones.value.filter((pokemon) => pokemon.id !== id);
+}
+
+const fetchPokemons = async () => {
+
+  
+
+  const res = await axios.get(`${apiPath}teams/`, {
+    headers: {
+      'Authorization': `JWT ${localStorage.getItem('token')}`
+    }
+  });
+
+  pokemones.value = res.data.team;
+}
+
+
 </script>
 
 
@@ -259,7 +245,7 @@ export default component;
   margin-top: 1em;
 }
 
-.pokemones{
+.pokemones {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;

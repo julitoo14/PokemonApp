@@ -31,7 +31,6 @@ export default {
             try {
                 const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${this.name}`);
                 this.imgSrc = res.data.sprites.other['official-artwork'].front_default;
-                console.log(this.imgSrc);
             } catch (e) {
                 console.log(e)
             }

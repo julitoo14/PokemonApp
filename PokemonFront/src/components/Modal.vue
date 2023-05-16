@@ -15,44 +15,42 @@
     </div>
 </template>
 
-<script>
-export default {
-    props: {
-        show: {
-            default: false
-        },
-    },
-
-    data() {
-        return {
-            clickListener: (e) => {
-                if (e.target === this.$refs.modal) {
-                    this.$emit('close');
-                }
-            },
-
-            closeOnEscapeListener: (e) => {
-                if (e.key === "Escape") {
-                    this.$emit('close');
-                }
-            },
-
-        }
-    },
-
-    emits: ['close'],
-
-    mounted() {
-        window.addEventListener("click", this.clickListener);
-        window.addEventListener("keydown", this.closeOnEscapeListener);
-    },
-
-    beforeUnmount() {
-        window.removeEventListener("click", this.clickListener);
-        window.removeEventListener("keydown", this.closeOnEscapeListener);
+<script setup>
+import { onBeforeUnmount, onMounted, ref} from 'vue';
+const modal = ref(null);
+const clickListener = (e) => {
+    if (e.target === modal.value) {
+        emit('close');
     }
+};
 
-}
+const closeOnEscapeListener = (e) => {
+    if (e.key === "Escape") {
+        emit('close');
+    }
+};
+
+const props = defineProps({
+    show: {
+        default: false
+    },
+});
+
+const emit = defineEmits(['close']);
+
+
+onMounted(() => {
+    window.addEventListener("click", clickListener);
+    window.addEventListener("keydown", closeOnEscapeListener);
+    modal.value.focus();
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener("click", clickListener);
+    window.removeEventListener("keydown", closeOnEscapeListener);
+});
+
+
 </script>
 
 <style scoped>
@@ -119,7 +117,7 @@ export default {
 .modal-body {
     padding: 16px;
     background-color: var(--background-color);
-    
+
 }
 
 .modal-footer {

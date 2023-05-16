@@ -4,7 +4,7 @@
         <Btn variant='green' class="add-button" @click="showAddPokemon">Add Pokemon</Btn>
     </div>
 
-    <Modal :show="showAddPokemonForm" @close="showAddPokemonForm = false, alert.show = false">
+    <Modal :show="showAddPokemonForm" @close="showAddPokemonForm = false">
         <template v-slot:header>
             <h2>Ingrese el nombre del pokemon que desea agregar a su equipo</h2>
         </template>
@@ -13,49 +13,32 @@
             <input type="text" v-model="pokemonName">
         </template>
         <template v-slot:footer>
-            <Btn @click="showAddPokemonForm = false, alert.show= false"></Btn>
+            <Btn @click="showAddPokemonForm = false"></Btn>
             <Btn @click="$emit('submit', pokemonName)">Submit</Btn>
 
         </template>
     </Modal>
 </template>
 
-<script>
+<script setup>
 import Modal from './Modal.vue';
 import Btn from './Btn.vue';
-import Alert from './Btn.vue';
-export default {
-    components: {
-        Btn,
-        Modal,
-        Alert
-    },
+import { reactive, ref } from 'vue';
+const pokemonName = ref('');
+const alert = reactive({
+    alert: {
+        show: false,
+        message: "",
+        type: "danger",
+    }
+});
+const showAddPokemonForm = ref(false);
+const emit = defineEmits(['submit', 'close'])
 
-    data() {
-        return {
-            pokemonName: '',
-            alert: {
-                show: false,
-                message: "",
-                type: "danger",
-            },
-            showAddPokemonForm: false,
-        }
-    },
-
-    methods: {
-        showAlert(message, type) {
-            this.alert.show = true;
-            this.alert.message = message;
-            this.alert.type = type;
-        },
-        showAddPokemon() {
-            this.showAddPokemonForm = true;
-        },
-    },
-
-    emits: ['submit', 'close'],
+const showAddPokemon = () => {
+    showAddPokemonForm.value = true;
 }
+
 </script>
 
 <style scoped>
@@ -78,11 +61,9 @@ img {
     margin: auto;
 }
 
-.add-button{
+.add-button {
     margin: 0;
     width: 60%;
     margin-bottom: 10px;
 }
-
-
 </style>

@@ -7,10 +7,10 @@
     </div>
 </template>
 
-<script>
-export default {
-    props: {
-        message: {
+<script setup>
+import { useBackgroundColor } from '../composables/useBackgroundColor'
+const props = defineProps({
+    message: {
             required: true,
             type: String,
         },
@@ -25,23 +25,10 @@ export default {
                 return ["danger", "warning", "info"].includes(value);
             },
         },
-    },
+});
 
-    computed: {
-        backgroundColor() {
-            const options = {
-                danger: "red",
-                info: "blue",
-                warning: "yellow"
-            }
-
-            return options[this.type];
-        }
-    },
-
-    emits: ["close"],
-
-};
+const backgroundColor = useBackgroundColor(props);
+const emit = defineEmits(['close']);
 </script>
 
 <style scoped>
