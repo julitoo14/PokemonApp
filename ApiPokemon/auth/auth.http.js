@@ -40,7 +40,7 @@ const loguear = async (req, res) => {
     let user = await usersController.getUserIdFromUserName(req.body.user);
     const token = jwt.sign({userId: user.userId}, 'secretPassword');
     res.status(200).json(
-        {token: token}
+        {token: token, userId: user.userId}
     );
     
 }

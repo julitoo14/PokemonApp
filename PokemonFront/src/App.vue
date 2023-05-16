@@ -67,13 +67,10 @@
       </Alert>
     </template>
   </Modal>
-  <div class="pokemones">
-    <Pokemon />
-    <Pokemon />
-    <Pokemon />
-    <Pokemon />
-    <Pokemon />
-    <Pokemon />
+  <div class="pokemones" v-if="logueado">
+    <Pokemon v-for="pokemon in pokemones" :key="pokemon.id" :name="pokemon.name" @remove="removePokemon(pokemon.id)" >
+    </Pokemon>
+    <AddPokemonForm v-if="pokemones.length <=5" @submit="addPokemon"/>
 
   </div>
 </template>
@@ -86,6 +83,7 @@ import Btn from './components/Btn.vue';
 import axios from "axios";
 import Alert from "./components/Alert.vue";
 import Pokemon from './components/Pokemon.vue';
+import AddPokemonForm from './components/addPokemonForm.vue';
 const component = {
 
   components: {
@@ -93,7 +91,8 @@ const component = {
     Modal,
     Btn,
     Alert,
-    Pokemon
+    Pokemon,
+    AddPokemonForm,
   },
 
   data() {
@@ -103,8 +102,11 @@ const component = {
       user: '',
       password: '',
       confirmPassword:'',
-      pokemones:['pikachu','charmander', 'das','dasasd'],
+      pokemonName:'',
+      counter: 0,
+      pokemones:[],
       token: '',
+      apiPath: 'http://localhost:3000/',
       logueado: false,
       alert: {
         show: false,
@@ -123,12 +125,10 @@ const component = {
 
     showLogin() {
       this.showLoginModel = true;
-      console.log(this.showLoginModel);
     },
 
     showRegister() {
       this.showRegisterModel = true;
-      console.log(this.showRegisterModel)
     },
 
     async login(user, password) {
@@ -136,8 +136,12 @@ const component = {
         try {
           const res = await axios.post('http://localhost:3000/auth/login', { user: user, password: password });
           this.token = res.data;
+          localStorage.setItem('token', res.data.token);
+          localStorage.setItem ('userId', res.data.userId);
+          this.token = res.data.token;
           this.showLoginModel = false;
           this.logueado = true;
+          this.fetchPokemons();
         } catch (e) {
           this.showAlert(e.response.data.message, "danger");
         }
@@ -168,6 +172,46 @@ const component = {
     signOut() {
       this.token = '';
       this.logueado = false;
+      localStorage.clear();
+    },
+    
+    async addPokemon(pokemon){
+      const options = {
+        headers: {
+          'Authorization': `JWT ${this.token}`
+        }
+      }
+      const name = pokemon.toLowerCase();
+      console.log(name);
+      
+      await axios.post(`${this.apiPath}teams/pokemons`, {name: name}, options);
+      this.pokemones.push({name: name, id: ++this.counter});
+      console.log(this.pokemones);
+    },
+
+    removePokemon(id){
+      this.pokemones = this.pokemones.filter((pokemon) => pokemon.id !== id);
+    },
+
+    async fetchPokemons(){
+      
+      const options = {
+        headers: {
+          'Authorization': `JWT ${this.token}`
+        }
+      };
+      console.log(localStorage.getItem('userId'));
+      const user = {'user': {
+        'userId' : localStorage.getItem('userId')
+      } }
+      
+      const res = await axios.get(`${this.apiPath}teams/`, {
+        headers: {
+          'Authorization': `JWT ${this.token}`
+        }
+      });
+
+      this.pokemones = res.data.team;
     }
   }
 };
