@@ -1,30 +1,32 @@
 <template>
-    <button :style="{ backgroundColor: backgroundColor }" @click.prevent="$emit('click')" v-bind="$attrs" :class="{circle: applyCircleClass}"> 
-        <slot /> 
+    <button :style="{ backgroundColor: backgroundColor }" @click.prevent="$emit('click')" v-bind="$attrs"
+        :class="{ circle: applyCircleClass }">
+        <slot />
     </button>
 </template>
 
-<script>
-export default{
-    props:{
-        variant: {
-            required: false,
-            default: "white",
-            validator(value){ // se valida que la opcion ingresada sea valida, si no queda la default
-                const options = ["gray", "white", "blue", "red", "green", "yellow"];
-                return options.includes(value);
-            },
-        },
+<script setup>
+import { computed } from 'vue';
 
-        circle:{
-            default: false,
-            type: Boolean,
+const emit = defineEmits(['click']);
+const props = defineProps({
+    variant: {
+        required: false,
+        default: "white",
+        validator(value) { // se valida que la opcion ingresada sea valida, si no queda la default
+            const options = ["gray", "white", "blue", "red", "green", "yellow"];
+            return options.includes(value);
         },
     },
 
-    computed: {
-        backgroundColor() {
-            const options = { 
+    circle: {
+        default: false,
+        type: Boolean,
+    },
+});
+
+const backgroundColor = computed(() =>{
+    const options = {
                 gray: "gray",
                 white: "white",
                 blue: "blue",
@@ -32,36 +34,32 @@ export default{
                 green: "green",
                 yellow: 'yellow',
             };
-            return options[this.variant];
-        },
+            return options[props.variant];
+})
 
-        applyCircleClass(){
-            return this.circle; // se le da un True a la prop circle
-        },
-    },
-
-    emits: ['click'],
-}
+const applyCircleClass = computed(() =>{
+    return props.circle;
+})
 </script>
 
 <style scoped>
 button {
-  background-color: white;
-  color: black;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 16px;
-  margin-left: 10px;
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-left: 10px;
 }
 
 button:hover {
-  cursor: pointer;
-  background-color: rgb(204, 201, 27);
-  color: rgb(8, 8, 8);
+    cursor: pointer;
+    background-color: rgb(204, 201, 27);
+    color: rgb(8, 8, 8);
 }
 
-.circle{
+.circle {
     border-radius: 50%;
 }
 </style>
