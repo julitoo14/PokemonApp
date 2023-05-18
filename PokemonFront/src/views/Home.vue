@@ -37,9 +37,9 @@ const addPokemon = async (pokemon) => {
     }
   }
   const name = pokemon.toLowerCase();
-
   await axios.post(`${apiPath}teams/pokemons`, { name: name }, options);
   pokemones.value.push({ name: name, id: ++counter.value });
+  fetchPokemons();
 }
 
 const fetchPokemons = async () => {
@@ -63,6 +63,8 @@ const removePokemon = async (id) => {
       'Authorization': `JWT ${localStorage.getItem('token')}`
     }
   });
+
+  
   fetchPokemons();
 
 }

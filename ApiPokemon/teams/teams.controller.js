@@ -54,9 +54,9 @@ const removePokemon = (userId, pokeid) => {
         if(err || !dbTeam){
             return reject(err);
         }
-        if(dbTeam.team[pokeid]){
-            dbTeam.team.splice(pokeid, 1);
-        }
+
+        dbTeam.team = dbTeam.team.filter((pokemon) => pokemon.id !== pokeid);
+
         await dbTeam.save();
         resolve();
     });

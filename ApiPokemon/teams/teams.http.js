@@ -2,6 +2,7 @@ const axios = require('axios').default;
 const teamsController = require('./teams.controller');
 const usersController = require('../auth/users.controller');
 const { to } = require('../tools/to');
+const uuid = require('uuid');
 
 const getTeamFromUser = async (req, res) => {
     let user = await usersController.getUserFromUserId(req.user.userId);
@@ -30,10 +31,12 @@ const addPokemonToTeam = async (req, res) => {
     if(pokeApiError){
         return res.status(400).json({message: pokeApiError});
     }
+    let id = uuid.v4();
 
     let pokemon = {   
         name: pokeApiResponse.data.name,
-        pokedexNumber: pokeApiResponse.data.id
+        pokedexNumber: pokeApiResponse.data.id,
+        id: id,
     }
     
     let [errorAdd, response] =  await to(teamsController.addPokemon(req.user.userId, pokemon));
@@ -42,9 +45,6 @@ const addPokemonToTeam = async (req, res) => {
        return res.status(400).json({message: 'You already have 6 pokemon'});
     }
     res.status(201).json(pokemon);
-    
-            
-    
 }
 
 const deletePokemonFromTeam = async (req,res) => {

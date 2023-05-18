@@ -8,42 +8,32 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import axios from 'axios';
-import Btn from './Btn.vue';
-export default {
-    components:{
-        Btn,
-    },
+import { ref } from 'vue';
+import { onMounted } from 'vue';
+const imgSrc = ref('');
 
-    data(){
-        return{
-            imgSrc:'',
-        }
-    },
-    props: {
-        name: '',
+const props = defineProps({
+    name: '',
+    
+});
+const emit = defineEmits(['remove']);
 
-    },
+onMounted(() =>{
+    getImg();
+})
 
-    methods: {
-        async getImg() {
-            try {
-                const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${this.name}`);
-                this.imgSrc = res.data.sprites.other['official-artwork'].front_default;
-            } catch (e) {
+const getImg = async () =>{
+    try{
+        console.log(props.name)
+        const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${props.name}`);
+                imgSrc.value = res.data.sprites.other['official-artwork'].front_default;
+    }catch (e) {
                 console.log(e)
             }
-        }
-    },
-
-    emits: ["remove"],
-
-    mounted(){
-        return this.getImg();
-    }
-
 }
+
 </script>
 
 <style scoped>
