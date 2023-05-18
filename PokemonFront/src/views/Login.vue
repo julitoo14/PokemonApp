@@ -11,7 +11,7 @@
         </div>
       
         <div class="modal-footer">
-          <Btn @click="login(this.user, this.password)" variant="yellow">Iniciar Sesion</Btn>
+          <Btn @click="login(user, password)" variant="yellow">Iniciar Sesion</Btn>
           
         </div>
     </div>
@@ -25,8 +25,10 @@ import Btn from '../components/Btn.vue'
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import Navbar from '../components/Navbar.vue'
+import { ref } from 'vue';
 
-
+const user = ref('');
+const password = ref('');
 const router = useRouter();
 
 

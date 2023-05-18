@@ -32,11 +32,20 @@ const addPokemonToTeam = async (req, res) => {
         return res.status(400).json({message: pokeApiError});
     }
     let id = uuid.v4();
+    let height = pokeApiResponse.data.height;
+    let weight = pokeApiResponse.data.weight;
+    height = height/10;
+    weight = weight/10; 
 
     let pokemon = {   
         name: pokeApiResponse.data.name,
         pokedexNumber: pokeApiResponse.data.id,
         id: id,
+        types: pokeApiResponse.data.types,
+        height: height,
+        weight: weight,
+        imgSrc: pokeApiResponse.data.sprites.other['official-artwork'].front_default,
+
     }
     
     let [errorAdd, response] =  await to(teamsController.addPokemon(req.user.userId, pokemon));
@@ -60,4 +69,3 @@ exports.getTeamFromUser = getTeamFromUser;
 exports.setTeamToUser = setTeamToUser;
 exports.addPokemonToTeam = addPokemonToTeam;
 exports.deletePokemonFromTeam = deletePokemonFromTeam;
-

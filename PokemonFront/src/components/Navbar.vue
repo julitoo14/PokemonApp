@@ -13,7 +13,7 @@
       </div>
       <div v-else class="login">
         <Btn variant='yellow'><RouterLink to="/login">Iniciar sesión</RouterLink></Btn>
-        <Btn variant="yellow"><RouterLink to="#">Registrarse</RouterLink></Btn>
+        <Btn variant="yellow"><RouterLink to="/register">Registrarse</RouterLink></Btn>
       </div>
     </div>
 

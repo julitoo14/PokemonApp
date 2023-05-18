@@ -23,8 +23,8 @@ const alert = reactive({
 }
 );
 
-onMounted( () => {
-  if(localStorage.getItem('token')){
+onMounted(() => {
+  if (localStorage.getItem('token')) {
     logueado.value = true;
   }
 });
@@ -107,6 +107,4 @@ const removePokemon = (id) => {
   margin: auto;
   margin-top: 1em;
 }
-
-
 </style>

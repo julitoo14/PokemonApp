@@ -1,11 +1,11 @@
 <template>
   <Navbar></Navbar>
   <div class="pokemones" v-if="loggedIn">
-    <Pokemon v-for="pokemon in pokemones" :key="pokemon.id" :name="pokemon.name" @remove="removePokemon(pokemon.id)">
-    </Pokemon>
-    <AddPokemonForm v-if="pokemones.length <= 5" @submit="addPokemon" />
-
-  </div>
+    <Pokemon v-for="pokemon in pokemones" v-bind="pokemon" :pokemon="pokemon" :key="pokemon.id"  :src="pokemon.imgSrc" :name="pokemon.name" @remove="removePokemon(pokemon.id)">
+      </Pokemon>
+      <AddPokemonForm v-if="pokemones.length <= 5" @submit="addPokemon" />
+      
+    </div>
 </template>
 
 <script setup>
@@ -15,7 +15,6 @@ import AddPokemonForm from '../components/addPokemonForm.vue'
 import { ref } from 'vue';
 import axios from 'axios';
 import Navbar from '../components/Navbar.vue'
-
 const loggedIn = ref(false);
 const pokemones = ref([]);
 const apiPath = 'http://localhost:3000/';
@@ -53,20 +52,13 @@ const fetchPokemons = async () => {
 }
 
 const removePokemon = async (id) => {
-  console.log(id);
-  console.log(pokemones.value);
   pokemones.value = pokemones.value.filter((pokemon) => pokemon.id !== id);
-  console.log(pokemones.value);
-
   await axios.delete(`${apiPath}teams/pokemons/${id}`, {
     headers: {
       'Authorization': `JWT ${localStorage.getItem('token')}`
     }
   });
-
-  
   fetchPokemons();
-
 }
 
 </script>

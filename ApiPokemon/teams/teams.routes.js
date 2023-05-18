@@ -13,5 +13,4 @@ router.route('/')
 router.route('/pokemons/:pokeid')
     .delete(teamsHttpHandler.deletePokemonFromTeam)
 
-
 exports.router = router;
