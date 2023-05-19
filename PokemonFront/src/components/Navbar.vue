@@ -1,19 +1,19 @@
 <template>
   <nav>
-    <div class="nav-div">
+    <div class="nav-div pokeball">
       <a href="#"><img class="pokeball" src="../assets/Poké_Ball_icon.svg" alt="Logo"></a>
     </div>
     <div class="nav-div logo-div">
       <img class="logo" src="../assets/Pokemon.svg"><img>
     </div>
-    <div class="nav-div buttons-div">
+    <div class="nav-div if-div buttons-div">
       <div v-if="logueado" class="login">
         <p class="welcome">Bienvenido {{ user }}!</p>
-        <Btn variant="gray" @click="signOut"> Cerrar Sesion </Btn>
+        <Btn variant="gray" class="buttons" @click="signOut"> Cerrar Sesion </Btn>
       </div>
-      <div v-else class="login">
-        <Btn variant='yellow'><RouterLink to="/login">Iniciar sesión</RouterLink></Btn>
-        <Btn variant="yellow"><RouterLink to="/register">Registrarse</RouterLink></Btn>
+      <div v-else class="login if-div">
+        <Btn variant='yellow' class="buttons"><RouterLink to="/login">Iniciar sesión</RouterLink></Btn>
+        <Btn variant="yellow" class="buttons"><RouterLink to="/register">Registrarse</RouterLink></Btn>
       </div>
     </div>
 
@@ -48,7 +48,7 @@ const signOut = () => {
 
 
 nav {
-  background-color: rgb(46, 45, 45);
+  background-color: var(--navbar-color);
   color: red;
   display: flex;
   justify-content: flex-start;
@@ -75,11 +75,40 @@ nav {
   height: 80px;
 }
 
-
+.login{
+  display: flex;
+}
 
 .buttons-div {
   display: flex;
   justify-content: flex-end;
   margin-right: 30px;
+}
+
+@media screen and (max-width: 900px) {
+  .pokeball{
+    display: none;
+  }
+
+  .buttons-div{
+    margin: 0;
+  }
+
+  nav{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .if-div{
+    margin-top: 1em;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    align-items: center;
+  }
+  .buttons{
+    height: 3em;
+    widows: 4em;
+}
 }
 </style>

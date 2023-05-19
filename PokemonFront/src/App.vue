@@ -1,72 +1,14 @@
 <template>
-  <RouterView></RouterView>
+  <main>
+    <RouterView></RouterView>
+  </main>
+  <Footer />
 </template>
 
-
 <script setup>
-import Navbar from './components/Navbar.vue';
-import axios from "axios";
-import Alert from "./components/Alert.vue";
-import { onMounted, reactive, ref } from 'vue';
-
-const user = ref('');
-const password = ref('');
-const confirmPassword = ref('');
-
-const logueado = ref(false);
-const alert = reactive({
-  alert: {
-    show: false,
-    message: "",
-    type: "danger",
-  }
-}
-);
-
-onMounted(() => {
-  if (localStorage.getItem('token')) {
-    logueado.value = true;
-  }
-});
-
-const showAlert = (message, type) => {
-  alert.show = true;
-  alert.message = message;
-  alert.type = type;
-}
-
-const register = async (user, password, confirmPassword) => {
-  if (user != '' && password != '' && confirmPassword != '') {
-    if (password !== confirmPassword) {
-      showAlert("passwords no coinciden");
-    } else {
-
-      try {
-        const res = await axios.post('http://localhost:3000/auth/register', { user: user, password: password });
-        showAlert(`${user} se ha registrado correctamente`, "info");
-      } catch (e) {
-        showAlert(e.response.data.message);
-      }
-    }
-
-  } else {
-    showAlert("Faltan datos");
-  }
-}
-
-const signOut = () => {
-  logueado.value = false;
-  localStorage.clear();
-}
-
-const removePokemon = (id) => {
-  pokemones.value = pokemones.value.filter((pokemon) => pokemon.id !== id);
-}
-
-
+import Footer from "./components/footer.vue";
 
 </script>
-
 
 <style scoped>
 .login-form-div {

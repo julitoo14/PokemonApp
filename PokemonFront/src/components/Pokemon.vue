@@ -1,77 +1,77 @@
 <template>
-    <div class="contenedor">
-        <button variant='red' class="remove-button" @click="$emit('remove')"><img class="remove-icon"
-                src="../assets/remove.svg" alt=""></button>
-        <img :src="src" alt="">
-        <RouterLink id="pokemonView" :name="name" :to=url >
-        <p>
-            {{ name }}
-        </p>
-        </RouterLink>
-    </div>
+  <div class="contenedor">
+    <button variant="red" class="remove-button" @click="$emit('remove')">
+      <img class="remove-icon" src="../assets/remove.svg" alt="" />
+    </button>
+    <img :src="src" alt="" />
+    <p>
+      {{ name }}
+    </p>
+  </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
-
 const props = defineProps({
-    name: '',
-    src: '',
+  name: "",
+  src: "",
 });
 const name = props.name;
-const emit = defineEmits(['remove']);
-const url = computed(() =>{
-    return '/pokemon/' + name;
-})
-
+const emit = defineEmits(["remove"]);
 </script>
 
 <style scoped>
 .remove-icon {
-    height: 30px;
-    width: 30px;
-    text-align: center;
-    display: block;
-    margin: auto;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  display: block;
+  margin: auto;
 }
 
 .remove-button {
-    height: 40px;
-    width: 40px;
-    text-align: center;
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: rgb(219, 80, 80);
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgb(219, 80, 80);
 }
 
 .remove-button:hover {
-    cursor: pointer;
-    background-color: red;
+  cursor: pointer;
+  background-color: red;
 }
 
 .contenedor {
-    position: relative;
-    height: 15em;
-    width: 32%;
-    border: 5px solid yellow;
-    margin-top: 10px;
-    background-color: gray;
+  position: relative;
+  height: 20em;
+  width: 32%;
+  border: 5px solid var(--navbar-color);
+  margin-top: 10px;
+  background-color: gray;
+  display: flex;
+  flex-direction: column;
 }
 
 img {
-    height: 10em;
-    width: 10em;
-    display: block;
-    margin: auto;
+  height: 10em;
+  width: 10em;
+  display: block;
+  margin: auto;
 }
 
 * {
-    color: black;
+  color: black;
 }
 
 p {
-    text-align: center;
-    font-size: 2em;
+  text-align: center;
+  font-size: 2em;
+}
+
+@media screen and (max-width: 900px) {
+  .contenedor {
+    width: 80%;
+  }
 }
 </style>

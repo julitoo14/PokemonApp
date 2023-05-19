@@ -1,69 +1,76 @@
 <template>
-    <div class="contenedor">
-        <img src="../assets/add.svg" alt="">
-        <Btn variant='green' class="add-button" @click="showAddPokemon">Add Pokemon</Btn>
-    </div>
+  <div class="contenedor">
+    <img src="../assets/add.svg" alt="" />
+    <Btn variant="green" class="add-button" @click="showAddPokemon"
+      >Add Pokemon</Btn
+    >
+  </div>
 
-    <Modal :show="showAddPokemonForm" @close="showAddPokemonForm = false">
-        <template v-slot:header>
-            <h2>Ingrese el nombre del pokemon que desea agregar a su equipo</h2>
-        </template>
-        <template v-slot:content>
-            <label>nombre Pokemon</label>
-            <input type="text" v-model="pokemonName">
-        </template>
-        <template v-slot:footer>
-            <Btn @click="showAddPokemonForm = false"></Btn>
-            <Btn @click="$emit('submit', pokemonName)">Submit</Btn>
-
-        </template>
-    </Modal>
+  <Modal :show="showAddPokemonForm" @close="showAddPokemonForm = false">
+    <template v-slot:header>
+      <h2>Ingrese el nombre del pokemon que desea agregar a su equipo</h2>
+    </template>
+    <template v-slot:content>
+      <label>nombre Pokemon</label>
+      <input type="text" v-model="pokemonName" />
+    </template>
+    <template v-slot:footer>
+      <Btn @click="showAddPokemonForm = false"></Btn>
+      <Btn @click="$emit('submit', pokemonName)">Submit</Btn>
+    </template>
+  </Modal>
 </template>
 
 <script setup>
-import Modal from './Modal.vue';
-import Btn from './Btn.vue';
-import { reactive, ref } from 'vue';
-const pokemonName = ref('');
+import Modal from "./Modal.vue";
+import Btn from "./Btn.vue";
+import { reactive, ref } from "vue";
+const pokemonName = ref("");
 const alert = reactive({
-    alert: {
-        show: false,
-        message: "",
-        type: "danger",
-    }
+  alert: {
+    show: false,
+    message: "",
+    type: "danger",
+  },
 });
 const showAddPokemonForm = ref(false);
-const emit = defineEmits(['submit', 'close'])
+const emit = defineEmits(["submit", "close"]);
 
 const showAddPokemon = () => {
-    showAddPokemonForm.value = true;
-}
-
+  showAddPokemonForm.value = true;
+};
 </script>
 
 <style scoped>
 .contenedor {
-    position: relative;
-    height: 15em;
-    width: 32%;
-    border: 5px solid yellow;
-    margin-top: 10px;
-    background-color: gray;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  position: relative;
+  height: 20em;
+  width: 32%;
+  border: 5px solid var(--navbar-color);
+  margin-top: 10px;
+  background-color: gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 img {
-    height: 10em;
-    width: 10em;
-    display: block;
-    margin: auto;
+  height: 10em;
+  width: 10em;
+  display: block;
+  margin: auto;
 }
 
 .add-button {
-    margin: 0;
-    width: 60%;
-    margin-bottom: 10px;
+  margin: 0;
+  width: 60%;
+  margin-bottom: 10px;
+  background-color: var(--accent-color);
+}
+
+@media screen and (max-width: 900px) {
+  .contenedor {
+    width: 80%;
+  }
 }
 </style>
