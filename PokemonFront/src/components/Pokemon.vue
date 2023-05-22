@@ -4,9 +4,13 @@
       <img class="remove-icon" src="../assets/remove.svg" alt="" />
     </button>
     <img :src="src" alt="" />
-    <p>
+    <p class="name">
       {{ name }}
     </p>
+    <div class="peso-altura">
+      <p>Peso: {{ weight }} kg</p>
+      <p>Altura: {{ height }} m</p>
+    </div>
   </div>
 </template>
 
@@ -14,6 +18,8 @@
 const props = defineProps({
   name: "",
   src: "",
+  height: '',
+  weight: '',
 });
 const name = props.name;
 const emit = defineEmits(["remove"]);
@@ -34,7 +40,7 @@ const emit = defineEmits(["remove"]);
   position: absolute;
   top: 5px;
   right: 5px;
-  background-color: rgb(219, 80, 80);
+  background-color: var(--danger-color);
 }
 
 .remove-button:hover {
@@ -42,15 +48,27 @@ const emit = defineEmits(["remove"]);
   background-color: red;
 }
 
+.peso-altura{
+  display: flex;
+  justify-content: space-between;
+}
+
+.peso-altura p {
+  color: white;
+  margin: 10px;
+  font-size: 1.5em;
+}
 .contenedor {
   position: relative;
   height: 20em;
   width: 32%;
   border: 5px solid var(--navbar-color);
   margin-top: 10px;
-  background-color: gray;
+  background-color: rgba(26, 25, 25, 0.827);
   display: flex;
   flex-direction: column;
+  border-radius: 20px;
+  
 }
 
 img {
@@ -64,10 +82,13 @@ img {
   color: black;
 }
 
-p {
+.name {
   text-align: center;
   font-size: 2em;
+  color: var(--text-color);
 }
+
+
 
 @media screen and (max-width: 900px) {
   .contenedor {

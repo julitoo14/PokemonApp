@@ -1,7 +1,7 @@
 <template>
   <div class="contenedor">
     <img src="../assets/add.svg" alt="" />
-    <Btn variant="green" class="add-button" @click="showAddPokemon"
+    <Btn class="add-button" @click="showAddPokemon"
       >Add Pokemon</Btn
     >
   </div>
@@ -48,10 +48,11 @@ const showAddPokemon = () => {
   width: 32%;
   border: 5px solid var(--navbar-color);
   margin-top: 10px;
-  background-color: gray;
+  background-color: rgba(26, 25, 25, 0.827);
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-radius: 20px;
 }
 
 img {
@@ -64,8 +65,7 @@ img {
 .add-button {
   margin: 0;
   width: 60%;
-  margin-bottom: 10px;
-  background-color: var(--accent-color);
+  margin-bottom: 30px;
 }
 
 @media screen and (max-width: 900px) {

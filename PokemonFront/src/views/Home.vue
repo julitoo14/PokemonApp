@@ -8,6 +8,8 @@
       :key="pokemon.id"
       :src="pokemon.imgSrc"
       :name="pokemon.name"
+      :height="pokemon.height"
+      :weight="pokemon.weight"
       @remove="removePokemon(pokemon.id)"
     >
     </Pokemon>
@@ -75,7 +77,6 @@ const removePokemon = async (id) => {
 }
 
 @media screen and (max-width: 900px) {
-  .pokemones {
-  }
+  
 }
 </style>

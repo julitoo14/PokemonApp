@@ -1,10 +1,11 @@
 <template>
   <nav>
     <div class="nav-div pokeball">
-      <a href="#"><img class="pokeball" src="../assets/Poké_Ball_icon.svg" alt="Logo"></a>
+      <a href="#"><img class="logo" src="../assets/Pokemon.svg"><img></a>
     </div>
     <div class="nav-div logo-div">
-      <img class="logo" src="../assets/Pokemon.svg"><img>
+      <RouterLink class="links" to="/">Pokemones</RouterLink>
+      <RouterLink class="links" to="/team">Mi Equipo</RouterLink>  
     </div>
     <div class="nav-div if-div buttons-div">
       <div v-if="logueado" class="login">
@@ -49,11 +50,23 @@ const signOut = () => {
 
 nav {
   background-color: var(--navbar-color);
-  color: red;
+  color: var(--text-color);
   display: flex;
   justify-content: flex-start;
   align-items: center;
   padding: 10px;
+}
+
+.links{
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 2em;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+.links:hover{
+  color: gray;
 }
 
 .logo-div {
@@ -64,7 +77,10 @@ nav {
 
 .nav-div {
   width: 33%;
+  display: flex;
 }
+
+
 
 .pokeball {
   height: 80px;

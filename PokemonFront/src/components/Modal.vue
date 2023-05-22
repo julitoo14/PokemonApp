@@ -70,7 +70,7 @@ onBeforeUnmount(() => {
 
 .modal-content {
     position: relative;
-    background-color: #fefefe;
+    background-color: #e26565;
     margin: auto;
     padding: 0;
     width: 30%;
@@ -79,7 +79,7 @@ onBeforeUnmount(() => {
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
     animation-duration: 0.4s;
-    border: 3px solid yellow;
+    border: 3px solid rgb(10, 10, 10);
 }
 
 
