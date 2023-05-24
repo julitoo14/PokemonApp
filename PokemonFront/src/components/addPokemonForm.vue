@@ -12,6 +12,7 @@
     </template>
     <template v-slot:content>
       <label>nombre Pokemon</label>
+      <SearchPokemon  v-model="pokemonName"/>
       <input type="text" v-model="pokemonName" />
     </template>
     <template v-slot:footer>
@@ -25,6 +26,7 @@
 import Modal from "./Modal.vue";
 import Btn from "./Btn.vue";
 import { reactive, ref } from "vue";
+import SearchPokemon from "./searchPokemon.vue";
 const pokemonName = ref("");
 const alert = reactive({
   alert: {

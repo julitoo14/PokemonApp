@@ -37,7 +37,7 @@ onMounted(() => {
 const login = async (user, password) => {
   if (user != "" && password != "") {
     try {
-      const res = await axios.post("http://localhost:3000/auth/login", {
+      const res = await axios.post("https://pokemonapi-0w0d.onrender.com/auth/login", {
         user: user,
         password: password,
       });

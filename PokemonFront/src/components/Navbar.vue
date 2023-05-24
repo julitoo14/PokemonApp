@@ -4,8 +4,9 @@
       <a href="#"><img class="logo" src="../assets/Pokemon.svg"><img></a>
     </div>
     <div class="nav-div logo-div">
-      <RouterLink class="links" to="/">Pokemones</RouterLink>
-      <RouterLink class="links" to="/team">Mi Equipo</RouterLink>  
+        <RouterLink class="links" to="/">Home</RouterLink>
+        <RouterLink v-if="logueado" class="links" to="/team">Team Builder</RouterLink>
+        <RouterLink class="links" to="/about">About</RouterLink>  
     </div>
     <div class="nav-div if-div buttons-div">
       <div v-if="logueado" class="login">
@@ -60,7 +61,7 @@ nav {
 .links{
   text-decoration: none;
   color: var(--text-color);
-  font-size: 2em;
+  font-size: 1.5em;
   margin-right: 15px;
   margin-left: 15px;
 }
@@ -102,9 +103,7 @@ nav {
 }
 
 @media screen and (max-width: 900px) {
-  .pokeball{
-    display: none;
-  }
+
 
   .buttons-div{
     margin: 0;
@@ -126,5 +125,15 @@ nav {
     height: 3em;
     widows: 4em;
 }
+
+  .nav-div{
+    flex-direction: column;
+    width: 80%;
+    text-align: center;
+  }
+  .links{
+    margin-top: 10px;
+  }
+
 }
 </style>

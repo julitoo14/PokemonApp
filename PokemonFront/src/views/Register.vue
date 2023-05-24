@@ -54,7 +54,7 @@ const register = async (user, password, confirmPassword) => {
                 showAlert('Las contraseñas no coinciden');
             } else {
                 try {
-                    const res = await axios.post('http://localhost:3000/auth/register', { user: user, password: password });
+                    const res = await axios.post('https://pokemonapi-0w0d.onrender.com/auth/register', { user: user, password: password });
                     console.log(`${user} se ha registrado correctamente`);
 
                     router.push('/login');

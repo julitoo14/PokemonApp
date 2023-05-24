@@ -19,7 +19,7 @@ const port = 3000;
 
 middlewares.setupMiddlewares(app);
 app.get('/', (req, res) => {
-    res.status(200).send('Hello World!');
+    res.status(200).send('La api esta corriendo');
 });
 
 

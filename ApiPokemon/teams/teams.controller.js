@@ -10,6 +10,8 @@ const cleanUpTeams = () => {
     });
 }
 
+
+
 const bootstrapTeam = (userId) => {
     return new Promise(async (resolve, reject) => {
         let newTeam = new teamsModel({userId: userId, team: []});
@@ -28,6 +30,7 @@ const getTeamOfUser = (userId) => {
         resolve(dbTeam.team);
     });
 }
+
 
 const addPokemon = (userId, pokemon) => {
     return new Promise(async (resolve, reject) => {

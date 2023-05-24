@@ -16,9 +16,15 @@
   background-color: var(--navbar-color);
   height: 4em;
   text-align: center;
-  position: fixed;
+  position: relative;
   left: 0px;
   right: 0px;
   bottom: 0px;
+}
+
+@media screen and (max-width: 900px) {
+  .footer{
+    position: relative;
+  }
 }
 </style>

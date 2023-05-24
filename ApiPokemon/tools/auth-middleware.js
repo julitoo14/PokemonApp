@@ -5,7 +5,7 @@ const passport = require('passport');
 const init = () => {
     const opts = {
         jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
-        secretOrKey: 'secretPassword' // esta contrasenia deberia estar en una variable de entorno
+        secretOrKey: 'secretPassword' // process.env.JWTPASSWORD
     }
 
     passport.use(new JwtStrategy(opts, (decoded, done) =>{
