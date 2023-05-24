@@ -14,7 +14,7 @@
       @remove="removePokemon(pokemon.id)"
     >
     </Pokemon>
-    <AddPokemonForm v-if="pokemones.length <= 5" @submit="addPokemon && isLoading == false" />
+    <AddPokemonForm v-if="pokemones.length <= 5 && isLoading == false" @submit="addPokemon" />
   </div>
 </template>
 

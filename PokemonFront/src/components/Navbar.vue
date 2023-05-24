@@ -6,7 +6,7 @@
     <div class="nav-div logo-div">
         <RouterLink class="links" to="/">Home</RouterLink>
         <RouterLink v-if="logueado" class="links" to="/team">Team Builder</RouterLink>
-        <RouterLink class="links" to="/about">About</RouterLink>  
+        <RouterLink class="links" to="/about">About</RouterLink>    
     </div>
     <div class="nav-div if-div buttons-div">
       <div v-if="logueado" class="login">
