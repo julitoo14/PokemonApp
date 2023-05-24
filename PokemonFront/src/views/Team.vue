@@ -1,7 +1,7 @@
 <template>
   <Navbar></Navbar>
-  <Spinner v-if="isLoading == true"></Spinner>
-  <div class="pokemones" v-if="loggedIn">
+  <Spinner v-if="isLoading == true" class="spinner"></Spinner>
+  <div class="pokemones" v-if="loggedIn && isLoading == false" >
     <Pokemon
       v-for="pokemon in pokemones"
       v-bind="pokemon"
@@ -14,7 +14,7 @@
       @remove="removePokemon(pokemon.id)"
     >
     </Pokemon>
-    <AddPokemonForm v-if="pokemones.length <= 5" @submit="addPokemon" />
+    <AddPokemonForm v-if="pokemones.length <= 5" @submit="addPokemon && isLoading == false" />
   </div>
 </template>
 
@@ -84,6 +84,10 @@ const removePokemon = async (id) => {
   flex-wrap: wrap;
   justify-content: space-around;
   margin-bottom: 2.7em;
+}
+
+.spinner{
+  margin: auto;
 }
 
 @media screen and (max-width: 900px) {
