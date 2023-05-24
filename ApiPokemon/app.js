@@ -9,7 +9,7 @@ const teamsRoutes = require('./teams/teams.routes').router;
 
 const app = express();
 const corsOptions ={
-    origin:'http://localhost:5173', 
+    origin:'https://pokemon-app-julitoo14.vercel.app', //http://localhost:5173
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
