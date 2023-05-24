@@ -1,12 +1,13 @@
 <template>
     <Navbar />
     <SearchPokemon />
-    <div class="container">
+    <div class="container" v-if="isLoading = false">
         <div class="pokemon-container" v-for="pokemon in pokemonsPaginados">
                 <img :src="pokemon.img" alt="">
                 {{ pokemon.name }}      
         </div>
     </div>
+    <Spinner v-else/>
     <ul aria-label="Page navigation example">
         <li class="page-item"><button v-if="currentPage>1" @click="getDataPagina(--currentPage)" href="#" class="page-link">&lt; </button></li>
         <li class="page-item"><p>{{ currentPage }}</p></li>
@@ -17,8 +18,8 @@
 
 <script setup>
 import { ref } from 'vue';
-import Navbar from '../components/Navbar.vue'
-
+import Navbar from '../components/Navbar.vue';
+import Spinner from '../components/Spinner.vue';
 import SearchPokemon from '../components/searchPokemon.vue';
 import axios from 'axios';
 
@@ -27,6 +28,7 @@ const pokemons = ref([]);
 const elementosPorPagina = 10;
 const pokemonsPaginados = ref([]);
 const currentPage = ref(1);
+const isLoading = ref(false);
 
 
 const fetchPokemons = async () => {
@@ -44,11 +46,13 @@ const getDataPagina = async (currentPage) =>{
     let ini = (currentPage * elementosPorPagina) - elementosPorPagina;
     let fin = (currentPage * elementosPorPagina);
     pokemonsPaginados.value = [];
+    isLoading.value = true;
 
     for(let i = ini; i < fin; i++){
         let response = await axios(`https://pokeapi.co/api/v2/pokemon/${pokemons.value[i]}`)
         pokemonsPaginados.value.push({name: pokemons.value[i], img: response.data.sprites['front_default']});
     }
+    isLoading.value = false;
 }
 fetchPokemons();
 
