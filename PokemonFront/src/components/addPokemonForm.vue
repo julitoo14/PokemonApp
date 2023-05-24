@@ -11,9 +11,7 @@
       <h2>Ingrese el nombre del pokemon que desea agregar a su equipo</h2>
     </template>
     <template v-slot:content>
-      <label>nombre Pokemon</label>
-      <SearchPokemon  v-model="pokemonName"/>
-      <input type="text" v-model="pokemonName" />
+      <input type="text" v-model="pokemonName" placeholder="Pokemon name"/>
     </template>
     <template v-slot:footer>
       <Btn @click="showAddPokemonForm = false"></Btn>
@@ -26,7 +24,6 @@
 import Modal from "./Modal.vue";
 import Btn from "./Btn.vue";
 import { reactive, ref } from "vue";
-import SearchPokemon from "./searchPokemon.vue";
 const pokemonName = ref("");
 const alert = reactive({
   alert: {
