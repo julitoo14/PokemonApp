@@ -62,6 +62,9 @@ img {
 
 input{
   margin: auto;
+  text-align: center;
+  height: 2em;
+  width: 80%;
 }
 
 .add-button {

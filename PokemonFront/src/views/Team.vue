@@ -1,5 +1,6 @@
 <template>
   <Navbar></Navbar>
+  <Spinner v-if="isLoading == true"></Spinner>
   <div class="pokemones" v-if="loggedIn">
     <Pokemon
       v-for="pokemon in pokemones"
@@ -24,15 +25,21 @@ import AddPokemonForm from "../components/addPokemonForm.vue";
 import { ref } from "vue";
 import axios from "axios";
 import Navbar from "../components/Navbar.vue";
+import Spinner from "../components/Spinner.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const loggedIn = ref(false);
 const pokemones = ref([]);
 const apiPath = "https://pokemonapi-0w0d.onrender.com/";
 const counter = ref(0);
-
+const isLoading = ref(false);
 onMounted(() => {
   if (localStorage.getItem("token")) {
     loggedIn.value = true;
     fetchPokemons();
+  }else{
+    router.push('/');
   }
 });
 
@@ -49,6 +56,7 @@ const addPokemon = async (pokemon) => {
 };
 
 const fetchPokemons = async () => {
+  isLoading.value = true;
   const res = await axios.get(`${apiPath}teams/`, {
     headers: {
       Authorization: `JWT ${localStorage.getItem("token")}`,
@@ -56,6 +64,7 @@ const fetchPokemons = async () => {
   });
 
   pokemones.value = res.data.team;
+  isLoading.value= false;
 };
 
 const removePokemon = async (id) => {
