@@ -1,7 +1,7 @@
 <template>
   <nav>
     <div class="nav-div pokeball">
-      <a href="#"><img class="logo" src="../assets/Pokemon.svg"><img></a>
+      <RouterLink to="/"><img class="logo" src="../assets/Pokemon.svg"><img></RouterLink>
     </div>
     <div class="nav-div logo-div">
         <RouterLink class="links" to="/">Home</RouterLink>
