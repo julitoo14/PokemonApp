@@ -1,13 +1,13 @@
 <template>
     <Navbar />
     <SearchPokemon />
-    <div class="container" v-if="isLoading = false">
+    <div class="container" v-if="isLoading == false">
         <div class="pokemon-container" v-for="pokemon in pokemonsPaginados">
                 <img :src="pokemon.img" alt="">
                 {{ pokemon.name }}      
         </div>
     </div>
-    <Spinner v-else/>
+    <Spinner class="spinner" v-else/>
     <ul aria-label="Page navigation example">
         <li class="page-item"><button v-if="currentPage>1" @click="getDataPagina(--currentPage)" href="#" class="page-link">&lt; </button></li>
         <li class="page-item"><p>{{ currentPage }}</p></li>
@@ -69,6 +69,10 @@ fetchPokemons();
     margin-top: 1em;
     justify-content: center;
     flex-wrap: wrap;
+}
+
+.spinner{
+    margin: auto;
 }
 
 .pokemon-container{
