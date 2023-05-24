@@ -129,4 +129,10 @@ onBeforeUnmount(() => {
     align-items: center;
     padding: 1em;
 }
+
+@media screen and (max-width: 900px) {
+  .modal-content{
+    width: 60%;
+  }
+}
 </style>

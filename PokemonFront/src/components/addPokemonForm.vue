@@ -11,10 +11,9 @@
       <h2>Ingrese el nombre del pokemon que desea agregar a su equipo</h2>
     </template>
     <template v-slot:content>
-      <input type="text" v-model="pokemonName" placeholder="Pokemon name"/>
+      <input type="text" v-model="pokemonName" placeholder="Pokemon name" />
     </template>
     <template v-slot:footer>
-      <Btn @click="showAddPokemonForm = false"></Btn>
       <Btn @click="$emit('submit', pokemonName)">Submit</Btn>
     </template>
   </Modal>
@@ -58,6 +57,10 @@ img {
   height: 10em;
   width: 10em;
   display: block;
+  margin: auto;
+}
+
+input{
   margin: auto;
 }
 
