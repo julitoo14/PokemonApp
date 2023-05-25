@@ -11,7 +11,8 @@
     </div>
 
     <div class="modal-footer">
-      <Btn @click="login(user, password)" variant="yellow">Iniciar Sesion</Btn>
+      <Spinner v-if="isLoading" />
+      <Btn v-else @click="login(user, password)" variant="yellow">Iniciar Sesion</Btn>
     </div>
   </form>
 </template>
@@ -23,10 +24,13 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 import Navbar from "../components/Navbar.vue";
 import { ref } from "vue";
+import Spinner from '../components/Spinner';
+
 
 const user = ref("");
 const password = ref("");
 const router = useRouter();
+const isLoading = ref(false);
 
 onMounted(() => {
   if (localStorage.getItem("token")) {
@@ -37,6 +41,7 @@ onMounted(() => {
 const login = async (user, password) => {
   if (user != "" && password != "") {
     try {
+      isLoading.value = true;
       const res = await axios.post("https://pokemonapi-0w0d.onrender.com/auth/login", {
         user: user,
         password: password,
@@ -44,6 +49,7 @@ const login = async (user, password) => {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("userId", res.data.userId);
       localStorage.setItem("name", user);
+      isLoading.value = false;
       router.push("/");
     } catch (e) {
       console.log(e);
