@@ -24,7 +24,7 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 import Navbar from "../components/Navbar.vue";
 import { ref } from "vue";
-import Spinner from '../components/Spinner';
+import Spinner from '../components/Spinner.vue';
 
 
 const user = ref("");
